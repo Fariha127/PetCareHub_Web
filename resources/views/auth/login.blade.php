@@ -1,6 +1,7 @@
 @extends('layouts.auth')
 
 @section('title', 'Login | PetCareHub')
+@section('nav', true)
 
 @section('intro')
     <p class="eyebrow">Account Access</p>

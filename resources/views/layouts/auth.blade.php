@@ -45,6 +45,14 @@
             color: var(--brand-green);
         }
 
+        .site-nav .btn {
+            min-height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+        }
+
         .auth-page {
             min-height: 100vh;
             padding: 64px 16px;
@@ -196,7 +204,7 @@
                 <a class="site-brand" href="{{ url('/') }}">PetCareHub</a>
                 <div class="d-flex align-items-center gap-4">
                     <a class="site-link" href="{{ url('/') }}">Home</a>
-                    <a class="site-link" href="#">Pets</a>
+                    <a class="site-link" href="{{ route('pets.index') }}">Pets</a>
                     <a class="btn btn-outline-success px-3" href="{{ route('login') }}">Login</a>
                     <a class="btn btn-primary px-3" href="{{ route('register') }}">Register</a>
                 </div>

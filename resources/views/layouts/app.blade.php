@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title', 'PetCareHub')</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --brand-green: #198754;
+            --brand-green-dark: #146c43;
+            --ink: #121c2a;
+            --muted: #667085;
+            --line: #dfe7e3;
+            --wash: #f4faf7;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--wash);
+            color: var(--ink);
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+
+        .site-nav {
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .site-brand {
+            color: var(--brand-green);
+            font-size: 1.55rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .site-link {
+            color: #5b5f66;
+            font-size: 1.05rem;
+            text-decoration: none;
+        }
+
+        .site-link:hover,
+        .site-link.active {
+            color: var(--brand-green);
+        }
+
+        .site-nav .btn {
+            min-height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+        }
+
+        .btn-primary {
+            background: var(--brand-green);
+            border-color: var(--brand-green);
+            border-radius: 7px;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: var(--brand-green-dark);
+            border-color: var(--brand-green-dark);
+        }
+
+        .btn-outline-success {
+            border-color: var(--brand-green);
+            color: var(--brand-green);
+        }
+
+        .btn-outline-success:hover {
+            background: var(--brand-green);
+            border-color: var(--brand-green);
+        }
+
+        .page-section {
+            padding: 64px 0;
+        }
+
+        .content-card,
+        .pet-card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 22px 60px rgba(39, 73, 59, .09);
+        }
+
+        .eyebrow {
+            color: #16665f;
+            font-size: 1rem;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            color: var(--ink);
+            font-size: clamp(2.7rem, 5vw, 4.7rem);
+            font-weight: 750;
+            line-height: 1.08;
+        }
+
+        .section-title {
+            color: var(--ink);
+            font-size: clamp(2rem, 3vw, 2.8rem);
+            font-weight: 750;
+            line-height: 1.18;
+        }
+
+        .muted-copy {
+            color: var(--muted);
+            font-size: 1.18rem;
+            line-height: 1.6;
+        }
+
+        .pet-image {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+            background: #e9f2ee;
+        }
+
+        .pet-detail-image {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #e9f2ee;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 5px 12px;
+            font-size: .9rem;
+            font-weight: 650;
+            background: #e9f7ef;
+            color: #0f6b3d;
+        }
+
+        .status-pill.adopted {
+            background: #eef2f7;
+            color: #596273;
+        }
+
+        .form-control,
+        .form-select {
+            border-color: #d6dde3;
+            border-radius: 7px;
+            min-height: 46px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #88bda1;
+            box-shadow: 0 0 0 .22rem rgba(25, 135, 84, .14);
+        }
+
+        @media (max-width: 767.98px) {
+            .page-section {
+                padding: 40px 0;
+            }
+
+            .site-brand {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="site-nav">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3 py-4">
+            <a class="site-brand" href="{{ route('home') }}">PetCareHub</a>
+
+            <div class="d-flex flex-wrap align-items-center gap-3 gap-md-4">
+                <a class="site-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
+                <a class="site-link {{ request()->routeIs('pets.*') ? 'active' : '' }}" href="{{ route('pets.index') }}">Pets</a>
+
+                @auth
+                    <span class="text-secondary small">{{ ucwords(str_replace('_', ' ', auth()->user()->role)) }}</span>
+                    <a class="btn btn-outline-success px-3" href="{{ route('dashboard') }}">Dashboard</a>
+                    <form method="POST" action="{{ route('logout') }}" class="m-0">
+                        @csrf
+                        <button type="submit" class="btn btn-primary px-3">Logout</button>
+                    </form>
+                @else
+                    <a class="btn btn-outline-success px-3" href="{{ route('login') }}">Login</a>
+                    <a class="btn btn-primary px-3" href="{{ route('register') }}">Register</a>
+                @endauth
+            </div>
+        </div>
+    </nav>
+
+    @yield('content')
+</body>
+</html>
