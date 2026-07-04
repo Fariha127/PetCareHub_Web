@@ -4,17 +4,24 @@
 @section('nav', true)
 
 @section('intro')
-    <p class="eyebrow">Account Access</p>
-    <h1 class="intro-title">Welcome back to PetCareHub</h1>
+    <p class="eyebrow">Good to see you again</p>
+    <h1 class="intro-title">Continue your journey toward the right companion.</h1>
     <p class="intro-copy">
-        Sign in to review adoptions, update pet records, and track shelter or veterinary activity.
+        Pick up where you left off, revisit pets you care about, and keep your adoption plans organized in one calm, simple place.
     </p>
 
     <ul class="feature-list">
-        <li>Secure role-based access</li>
-        <li>Unified dashboard for pets and care</li>
-        <li>Fast reporting for course demos</li>
+        <li>Explore pet profiles with clear care details</li>
+        <li>Track availability before making a decision</li>
+        <li>Keep your account ready for adoption requests</li>
     </ul>
+
+    <span class="auth-chip">Trusted pet discovery starts here</span>
+
+    <div class="auth-visual">
+        <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=700&q=80" alt="Friendly dog">
+        <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=500&q=80" alt="Calm cat">
+    </div>
 @endsection
 
 @section('content')

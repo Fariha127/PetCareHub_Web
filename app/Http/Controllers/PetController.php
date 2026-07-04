@@ -13,11 +13,13 @@ class PetController extends Controller
     public function index(Request $request): View
     {
         $pets = $this->pets($request);
+        $options = $this->filterOptions();
 
         return view('pets.index', [
             'pets' => $pets,
-            'speciesOptions' => $pets->pluck('species')->unique()->sort()->values(),
-            'filters' => $request->only(['search', 'species', 'availability']),
+            'speciesOptions' => $options['species'],
+            'breedOptions' => $options['breeds'],
+            'filters' => $request->only(['search', 'species', 'breed', 'age', 'vaccination', 'adoption_status', 'sort']),
         ]);
     }
 
@@ -35,7 +37,7 @@ class PetController extends Controller
         try {
             DB::connection()->getPdo();
 
-            $query = Pet::query()->latest();
+            $query = Pet::query();
 
             if ($request->filled('search')) {
                 $search = $request->string('search');
@@ -48,14 +50,36 @@ class PetController extends Controller
             }
 
             if ($request->filled('species')) {
-                $query->where('species', $request->string('species'));
+                $query->where('species', 'like', '%' . $request->string('species') . '%');
             }
 
-            if ($request->filled('availability')) {
-                $query->where('adoption_status', $request->string('availability'));
+            if ($request->filled('breed')) {
+                $query->where('breed', 'like', '%' . $request->string('breed') . '%');
             }
+
+            if ($request->filled('age')) {
+                $query->where('age', $request->integer('age'));
+            }
+
+            if ($request->filled('vaccination')) {
+                $query->where('vaccination_status', $request->string('vaccination'));
+            }
+
+            if ($request->filled('adoption_status')) {
+                $query->where('adoption_status', $request->string('adoption_status'));
+            }
+
+            match ($request->string('sort')->toString()) {
+                'age_asc' => $query->orderBy('age'),
+                'age_desc' => $query->orderByDesc('age'),
+                default => $query->latest(),
+            };
 
             $pets = $query->get();
+
+            if ($request->filled('species') && $pets->isEmpty()) {
+                $pets = $this->samplePets($request);
+            }
 
             return $pets->isNotEmpty() ? $pets : $this->samplePets($request);
         } catch (\Throwable) {
@@ -78,6 +102,41 @@ class PetController extends Controller
         }
 
         return $this->samplePets()->firstWhere('id', (int) $id);
+    }
+
+    private function filterOptions(): array
+    {
+        try {
+            DB::connection()->getPdo();
+
+            $species = Pet::query()
+                ->whereNotNull('species')
+                ->distinct()
+                ->orderBy('species')
+                ->pluck('species');
+
+            $breeds = Pet::query()
+                ->whereNotNull('breed')
+                ->distinct()
+                ->orderBy('breed')
+                ->pluck('breed');
+
+            if ($species->isNotEmpty() || $breeds->isNotEmpty()) {
+                return [
+                    'species' => $species,
+                    'breeds' => $breeds,
+                ];
+            }
+        } catch (\Throwable) {
+            //
+        }
+
+        $samplePets = $this->samplePets();
+
+        return [
+            'species' => $samplePets->pluck('species')->unique()->sort()->values(),
+            'breeds' => $samplePets->pluck('breed')->filter()->unique()->sort()->values(),
+        ];
     }
 
     private function samplePets(?Request $request = null): Collection
@@ -143,12 +202,32 @@ class PetController extends Controller
         }
 
         if ($request->filled('species')) {
-            $pets = $pets->where('species', $request->string('species')->toString());
+            $species = strtolower($request->string('species'));
+            $pets = $pets->filter(fn ($pet) => str_contains(strtolower($pet->species), $species));
         }
 
-        if ($request->filled('availability')) {
-            $pets = $pets->where('adoption_status', $request->string('availability')->toString());
+        if ($request->filled('breed')) {
+            $breed = strtolower($request->string('breed'));
+            $pets = $pets->filter(fn ($pet) => str_contains(strtolower($pet->breed), $breed));
         }
+
+        if ($request->filled('age')) {
+            $pets = $pets->where('age', $request->integer('age'));
+        }
+
+        if ($request->filled('vaccination')) {
+            $pets = $pets->where('vaccination_status', $request->string('vaccination')->toString());
+        }
+
+        if ($request->filled('adoption_status')) {
+            $pets = $pets->where('adoption_status', $request->string('adoption_status')->toString());
+        }
+
+        $pets = match ($request->string('sort')->toString()) {
+            'age_asc' => $pets->sortBy('age'),
+            'age_desc' => $pets->sortByDesc('age'),
+            default => $pets->sortByDesc('id'),
+        };
 
         return new Collection($pets->values()->all());
     }

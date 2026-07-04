@@ -46,7 +46,7 @@
         }
 
         .site-nav .btn {
-            min-height: 40px;
+            min-height: 35px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -79,6 +79,21 @@
             border-radius: 8px;
             box-shadow: 0 22px 60px rgba(39, 73, 59, .10);
             padding: 64px;
+        }
+
+        .intro-panel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-panel::before {
+            content: "";
+            position: absolute;
+            inset: auto -90px -120px auto;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(25, 135, 84, .08);
         }
 
         .eyebrow {
@@ -119,6 +134,58 @@
             margin-top: 34px;
             padding-left: 0;
             list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .feature-list li::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            flex: 0 0 9px;
+            border-radius: 50%;
+            background: var(--brand-green);
+            box-shadow: 0 0 0 5px rgba(25, 135, 84, .12);
+        }
+
+        .auth-visual {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 14px;
+            margin-top: 42px;
+        }
+
+        .auth-visual img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .auth-visual img:last-child {
+            height: 150px;
+            margin-top: 38px;
+        }
+
+        .auth-chip {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #cde5d8;
+            border-radius: 999px;
+            background: #eefaf3;
+            color: #0f6b3d;
+            font-weight: 650;
+            padding: 8px 14px;
+            margin-top: 26px;
         }
 
         .form-label {
@@ -214,7 +281,7 @@
 
     <main class="auth-page d-flex align-items-center">
         <div class="auth-grid">
-            <section class="auth-panel">
+            <section class="auth-panel intro-panel">
                 @yield('intro')
             </section>
 

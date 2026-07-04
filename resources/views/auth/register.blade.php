@@ -4,16 +4,27 @@
 @section('nav', true)
 
 @section('intro')
-    <p class="eyebrow">New Account</p>
-    <h1 class="intro-title">Join the PetCareHub workspace</h1>
+    <p class="eyebrow">Start your adoption journey</p>
+    <h1 class="intro-title">Create a home for the pet who is waiting for you.</h1>
     <p class="intro-copy">
-        Create an adopter account to request adoptions and book veterinary appointments.
+        Build your PetCareHub account to discover adoptable pets, save your details, and move faster when you find the right match.
     </p>
+
+    <ul class="feature-list">
+        <li>Browse pets by species, breed, age, and care status</li>
+        <li>Review each pet's story before taking the next step</li>
+        <li>Keep your contact details ready for future adoption requests</li>
+    </ul>
 
     <p class="auth-note mt-4 mb-0">
         Already registered?
         <a href="{{ route('login') }}" class="link-success">Login here.</a>
     </p>
+
+    <div class="auth-visual">
+        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=700&q=80" alt="Pets together">
+        <img src="https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?auto=format&fit=crop&w=500&q=80" alt="Small bird">
+    </div>
 @endsection
 
 @section('content')

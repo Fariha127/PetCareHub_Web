@@ -8,36 +8,64 @@
             <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
                 <div>
                     <p class="eyebrow">Pet Listing</p>
-                    <h1 class="section-title mb-2">Browse pets</h1>
-                    <p class="muted-copy mb-0">Available to guests, users, shelter staff, and veterinarians.</p>
+                    <h1 class="section-title mb-0">Search, filter, and sort available pets</h1>
                 </div>
             </div>
 
-            <form method="GET" action="{{ route('pets.index') }}" class="content-card p-4 mb-4">
-                <div class="row g-3 align-items-end">
-                    <div class="col-lg-5">
-                        <label for="search" class="form-label">Search</label>
-                        <input id="search" name="search" type="search" class="form-control" value="{{ $filters['search'] ?? '' }}" placeholder="Pet name, species, or breed">
+            <form method="GET" action="{{ route('pets.index') }}" class="pet-search mb-4">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-6 col-xl-3">
+                        <label for="search" class="visually-hidden">Search</label>
+                        <input id="search" name="search" type="search" class="form-control" value="{{ $filters['search'] ?? '' }}" placeholder="Search by name, breed, species">
                     </div>
-                    <div class="col-lg-3">
-                        <label for="species" class="form-label">Species</label>
+                    <div class="col-md-6 col-xl-2">
+                        <label for="species" class="visually-hidden">Species</label>
                         <select id="species" name="species" class="form-select">
-                            <option value="">All species</option>
+                            <option value="">Species</option>
                             @foreach ($speciesOptions as $species)
                                 <option value="{{ $species }}" @selected(($filters['species'] ?? '') === $species)>{{ $species }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-3">
-                        <label for="availability" class="form-label">Availability</label>
-                        <select id="availability" name="availability" class="form-select">
-                            <option value="">All statuses</option>
-                            <option value="Available" @selected(($filters['availability'] ?? '') === 'Available')>Available</option>
-                            <option value="Adopted" @selected(($filters['availability'] ?? '') === 'Adopted')>Adopted</option>
+                    <div class="col-md-6 col-xl-2">
+                        <label for="breed" class="visually-hidden">Breed</label>
+                        <select id="breed" name="breed" class="form-select">
+                            <option value="">Breed</option>
+                            @foreach ($breedOptions as $breed)
+                                <option value="{{ $breed }}" @selected(($filters['breed'] ?? '') === $breed)>{{ $breed }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-1 d-grid">
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                    <div class="col-md-6 col-xl-1">
+                        <label for="age" class="visually-hidden">Age</label>
+                        <input id="age" name="age" type="number" min="0" class="form-control" value="{{ $filters['age'] ?? '' }}" placeholder="Age">
+                    </div>
+                    <div class="col-md-6 col-xl-2">
+                        <label for="vaccination" class="visually-hidden">Vaccination</label>
+                        <select id="vaccination" name="vaccination" class="form-select">
+                            <option value="">Vaccination</option>
+                            <option value="Vaccinated" @selected(($filters['vaccination'] ?? '') === 'Vaccinated')>Vaccinated</option>
+                            <option value="Not Vaccinated" @selected(($filters['vaccination'] ?? '') === 'Not Vaccinated')>Not Vaccinated</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-xl-2">
+                        <label for="adoption_status" class="visually-hidden">Adoption Status</label>
+                        <select id="adoption_status" name="adoption_status" class="form-select">
+                            <option value="">Adoption Status</option>
+                            <option value="Available" @selected(($filters['adoption_status'] ?? '') === 'Available')>Available</option>
+                            <option value="Adopted" @selected(($filters['adoption_status'] ?? '') === 'Adopted')>Adopted</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-xl-2">
+                        <label for="sort" class="visually-hidden">Sort</label>
+                        <select id="sort" name="sort" class="form-select">
+                            <option value="newest" @selected(($filters['sort'] ?? 'newest') === 'newest')>Newest</option>
+                            <option value="age_asc" @selected(($filters['sort'] ?? '') === 'age_asc')>Age: Youngest</option>
+                            <option value="age_desc" @selected(($filters['sort'] ?? '') === 'age_desc')>Age: Oldest</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-xl-2 d-grid">
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
                     </div>
                 </div>
             </form>

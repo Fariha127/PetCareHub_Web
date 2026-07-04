@@ -2,10 +2,27 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetController;
+use App\Models\Pet;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    try {
+        DB::connection()->getPdo();
+
+        $availablePetsCount = Pet::where('adoption_status', 'Available')->count();
+        $adoptedPetsCount = Pet::where('adoption_status', 'Adopted')->count();
+
+        if ($availablePetsCount === 0 && $adoptedPetsCount === 0) {
+            $availablePetsCount = 3;
+            $adoptedPetsCount = 1;
+        }
+    } catch (Throwable) {
+        $availablePetsCount = 3;
+        $adoptedPetsCount = 1;
+    }
+
+    return view('welcome', compact('availablePetsCount', 'adoptedPetsCount'));
 })->name('home');
 
 Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
