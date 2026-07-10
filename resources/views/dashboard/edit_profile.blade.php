@@ -47,13 +47,15 @@
                             @enderror
                         </div>
 
-                        <div class="col-12 col-sm-6">
-                            <label for="occupation" class="form-label small fw-semibold text-secondary">Occupation</label>
-                            <input type="text" class="form-control @error('occupation') is-invalid @enderror" id="occupation" name="occupation" value="{{ old('occupation', $user->occupation) }}" placeholder="e.g. Designer, Teacher">
-                            @error('occupation')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        @if(!$user->isShelterStaff())
+                            <div class="col-12 col-sm-6">
+                                <label for="occupation" class="form-label small fw-semibold text-secondary">Occupation</label>
+                                <input type="text" class="form-control @error('occupation') is-invalid @enderror" id="occupation" name="occupation" value="{{ old('occupation', $user->occupation) }}" placeholder="e.g. Designer, Teacher">
+                                @error('occupation')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        @endif
 
                         <div class="col-12">
                             <label for="address" class="form-label small fw-semibold text-secondary">Address</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdoptionApplication;
 use App\Models\Pet;
+use App\Models\User;
 use App\Models\VetCheckup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -111,7 +112,9 @@ class DashboardController extends Controller
         $user->email = $validated['email'];
         $user->phone = $validated['phone'];
         $user->address = $validated['address'];
-        $user->occupation = $validated['occupation'];
+        if (!$user->isShelterStaff()) {
+            $user->occupation = $validated['occupation'];
+        }
 
         if (!empty($validated['password'])) {
             $user->password = bcrypt($validated['password']);
@@ -144,6 +147,19 @@ class DashboardController extends Controller
 
         return view('dashboard.my_pets', [
             'pets' => $pets,
+        ]);
+    }
+
+    public function viewUserProfile(User $user): View
+    {
+        $applications = $user->adoptionApplications()
+            ->with('pet')
+            ->latest()
+            ->get();
+
+        return view('dashboard.user_profile', [
+            'user' => $user,
+            'applications' => $applications,
         ]);
     }
 }

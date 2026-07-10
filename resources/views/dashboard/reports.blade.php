@@ -125,9 +125,17 @@
                             @php $maxMonthly = max(1, max($monthlySummary ?: [0])); @endphp
                             @for($m = 1; $m <= 12; $m++)
                                 @php $count = $monthlySummary[$m] ?? 0; @endphp
-                                <tr class="{{ $m == $month ? 'table-success' : '' }}">
-                                    <td class="fw-semibold">{{ DateTime::createFromFormat('!m', $m)->format('M') }}</td>
-                                    <td>{{ $count }}</td>
+                                <tr class="{{ $m == $month ? 'table-success' : '' }}" style="cursor: pointer;" onclick="window.location='{{ route('reports.adoption', ['month' => $m, 'year' => $year]) }}'">
+                                    <td class="fw-semibold">
+                                        <a href="{{ route('reports.adoption', ['month' => $m, 'year' => $year]) }}" class="text-decoration-none text-success-emphasis">
+                                            {{ DateTime::createFromFormat('!m', $m)->format('M') }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1.5 rounded">
+                                            {{ $count }}
+                                        </span>
+                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <div style="height: 12px; width: {{ $count > 0 ? max(8, ($count / $maxMonthly) * 100) : 0 }}%; background: var(--brand-green); border-radius: 4px; transition: width .3s;"></div>
@@ -161,7 +169,11 @@
                     <tbody>
                         @foreach($adoptions as $adoption)
                             <tr>
-                                <td class="fw-semibold">{{ $adoption->pet->name ?? 'N/A' }}</td>
+                                <td class="fw-semibold">
+                                    <a href="{{ route('pets.show', $adoption->pet_id) }}" class="text-decoration-none text-success">
+                                        {{ $adoption->pet->name ?? 'N/A' }}
+                                    </a>
+                                </td>
                                 <td>{{ $adoption->pet->species ?? '-' }}</td>
                                 <td>{{ $adoption->user->name }}</td>
                                 <td>{{ $adoption->reviewed_at?->format('M d, Y') ?? '-' }}</td>

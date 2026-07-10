@@ -90,7 +90,11 @@
                     @forelse($applications as $app)
                         <tr>
                             <td class="text-secondary">{{ $app->id }}</td>
-                            <td class="fw-semibold">{{ $app->user->name }}</td>
+                            <td class="fw-semibold">
+                                <a href="{{ route('dashboard.users.show', $app->user_id) }}" class="text-decoration-none text-success">
+                                    {{ $app->user->name }}
+                                </a>
+                            </td>
                             <td>
                                 <a href="{{ route('pets.show', $app->pet_id) }}" class="text-decoration-none text-success">
                                     {{ $app->pet->name ?? 'N/A' }}
@@ -113,12 +117,41 @@
                                                 <i class="bi bi-check-lg"></i> Approve
                                             </button>
                                         </form>
-                                        <form method="POST" action="{{ route('applications.reject', $app) }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Reject">
-                                                <i class="bi bi-x-lg"></i> Reject
-                                            </button>
-                                        </form>
+                                        
+                                        <!-- Reject Trigger Button -->
+                                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rejectModal-{{ $app->id }}" title="Reject">
+                                            <i class="bi bi-x-lg"></i> Reject
+                                        </button>
+
+                                        <!-- Reject Modal -->
+                                        <div class="modal fade" id="rejectModal-{{ $app->id }}" tabindex="-1" aria-labelledby="rejectModalLabel-{{ $app->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered text-start">
+                                                <div class="modal-content shadow-lg border-0">
+                                                    <form method="POST" action="{{ route('applications.reject', $app) }}">
+                                                        @csrf
+                                                        <div class="modal-header bg-danger text-white">
+                                                            <h5 class="modal-title fw-bold" id="rejectModalLabel-{{ $app->id }}">
+                                                                <i class="bi bi-exclamation-triangle-fill me-1"></i> Reject Application
+                                                            </h5>
+                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="mb-3 text-secondary">
+                                                                Are you sure you want to reject <strong>{{ $app->user->name }}</strong>'s application to adopt <strong>{{ $app->pet->name }}</strong>?
+                                                            </p>
+                                                            <div class="mb-0">
+                                                                <label for="admin_notes-{{ $app->id }}" class="form-label small fw-semibold text-secondary">Reason for Rejection <span class="text-danger">*</span></label>
+                                                                <textarea id="admin_notes-{{ $app->id }}" name="admin_notes" class="form-control" rows="3" placeholder="Please provide a clear explanation for the adopter..." required></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer bg-light">
+                                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                            <button type="submit" class="btn btn-sm btn-danger px-3 fw-semibold">Confirm Rejection</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 @else
                                     <span class="text-secondary small">

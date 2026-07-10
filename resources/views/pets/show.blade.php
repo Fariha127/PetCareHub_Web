@@ -28,7 +28,30 @@
             <article class="content-card p-4 p-lg-5">
                 <div class="row g-5 align-items-start">
                     <div class="col-lg-6">
-                        <img class="pet-detail-image" src="{{ $pet->image_url }}" alt="{{ $pet->name }}">
+                        <img class="pet-detail-image mb-4" src="{{ $pet->image_url }}" alt="{{ $pet->name }}">
+
+                        @if(auth()->check() && auth()->user()->isAdopter() && $pet->adoption_status === 'Available' && !$existingApplication)
+                            <!-- Adoption Promise (Terms & Conditions) -->
+                            <div class="p-3 bg-light rounded-3 border border-success-subtle mb-3 small shadow-sm animate-fade-in">
+                                <h4 class="h6 fw-bold text-success mb-2 d-flex align-items-center gap-1.5" style="font-size: 0.9rem;">
+                                    <i class="bi bi-patch-check-fill text-success"></i> Our Happy Pet Adoption Promise 🌸
+                                </h4>
+                                <ul class="list-unstyled mb-2 text-secondary ps-0 d-flex flex-column gap-1.5" style="font-size: 0.82rem; line-height: 1.4;">
+                                    <li>🧸 <strong>Showering with Love:</strong> I promise to provide plenty of cuddles, a cozy bed, and healthy food to keep their tummy happy!</li>
+                                    <li>🩺 <strong>Regular Checkups:</strong> I promise to schedule regular vet checkups and keep vaccinations up to date to keep their tail wagging or purrs going strong!</li>
+                                    <li>🏡 <strong>Safety Net:</strong> If circumstances change and I can no longer care for them, I promise to return them safely back to PetCareHub shelter, so they are always safe.</li>
+                                </ul>
+                                <div class="form-check m-0 pt-2 border-top">
+                                    <input class="form-check-input @error('agree_promise') is-invalid @enderror" type="checkbox" id="agree_promise" name="agree_promise" value="1" required form="adopt-form">
+                                    <label class="form-check-label fw-semibold text-dark cursor-pointer" for="agree_promise" style="font-size: 0.85rem;">
+                                        I agree to this promise! ❤️
+                                    </label>
+                                    @error('agree_promise')
+                                        <div class="invalid-feedback">You must agree to the promise to apply!</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="col-lg-6">
@@ -83,31 +106,11 @@
                                     </div>
                                 @elseif($pet->adoption_status === 'Available')
                                     <div class="mt-3">
-                                        <form method="POST" action="{{ route('applications.store', $pet->id) }}">
+                                        <form method="POST" action="{{ route('applications.store', $pet->id) }}" id="adopt-form">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="adopt-message" class="form-label fw-semibold">Why do you want to adopt {{ $pet->name }}?</label>
                                                 <textarea id="adopt-message" name="message" rows="3" class="form-control" placeholder="Tell us about your home, experience with pets, and why you'd be a great match..."></textarea>
-                                            </div>
-                                            <!-- Adoption Promise (Terms & Conditions) -->
-                                            <div class="p-3 bg-light rounded-3 border border-success-subtle mb-3 small">
-                                                <h4 class="h6 fw-bold text-success mb-2 d-flex align-items-center gap-1.5" style="font-size: 0.9rem;">
-                                                    <i class="bi bi-patch-check-fill text-success"></i> Our Happy Pet Adoption Promise 🌸
-                                                </h4>
-                                                <ul class="list-unstyled mb-2 text-secondary ps-0 d-flex flex-column gap-1" style="font-size: 0.82rem; line-height: 1.4;">
-                                                    <li>🧸 <strong>Showering with Love:</strong> I promise to provide plenty of cuddles, a cozy bed, and healthy food to keep their tummy happy!</li>
-                                                    <li>🩺 <strong>Regular Checkups:</strong> I promise to schedule regular vet checkups and keep vaccinations up to date to keep their tail wagging or purrs going strong!</li>
-                                                    <li>🏡 <strong>Safety Net:</strong> If circumstances change and I can no longer care for them, I promise to return them safely back to PetCareHub shelter, so they are always safe.</li>
-                                                </ul>
-                                                <div class="form-check m-0 pt-2 border-top">
-                                                    <input class="form-check-input @error('agree_promise') is-invalid @enderror" type="checkbox" id="agree_promise" name="agree_promise" value="1" required>
-                                                    <label class="form-check-label fw-semibold text-dark cursor-pointer" for="agree_promise" style="font-size: 0.85rem;">
-                                                        I agree to this promise! ❤️
-                                                    </label>
-                                                    @error('agree_promise')
-                                                        <div class="invalid-feedback">You must agree to the promise to apply!</div>
-                                                    @enderror
-                                                </div>
                                             </div>
 
                                             <button type="submit" class="btn btn-primary w-100 btn-lg">

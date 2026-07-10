@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/applications/{application}/approve', [AdoptionApplicationController::class, 'approve'])->name('applications.approve');
         Route::post('/applications/{application}/reject', [AdoptionApplicationController::class, 'reject'])->name('applications.reject');
 
+        Route::get('/dashboard/users/{user}', [DashboardController::class, 'viewUserProfile'])->name('dashboard.users.show');
+
         Route::get('/reports/adoption', [ReportController::class, 'monthlyAdoption'])->name('reports.adoption');
     });
 

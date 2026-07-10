@@ -60,15 +60,17 @@
                         <p class="fs-6 border rounded-pill px-3 py-2 bg-light mb-0">{{ $user->phone ?? 'Not specified' }}</p>
                     </div>
 
-                    <div class="col-12 col-sm-6">
-                        <label class="form-label text-secondary small fw-semibold uppercase">Occupation</label>
-                        <p class="fs-6 border rounded-pill px-3 py-2 bg-light mb-0">{{ $user->occupation ?? 'Not specified' }}</p>
-                    </div>
+                    @if(!$user->isShelterStaff())
+                        <div class="col-12 col-sm-6">
+                            <label class="form-label text-secondary small fw-semibold uppercase">Occupation</label>
+                            <p class="fs-6 border rounded-pill px-3 py-2 bg-light mb-0">{{ $user->occupation ?? 'Not specified' }}</p>
+                        </div>
 
-                    <div class="col-12 col-sm-6">
-                        <label class="form-label text-secondary small fw-semibold uppercase">Role Privilege</label>
-                        <p class="fs-6 border rounded-pill px-3 py-2 bg-light mb-0">{{ $user->role_display }}</p>
-                    </div>
+                        <div class="col-12 col-sm-6">
+                            <label class="form-label text-secondary small fw-semibold uppercase">Role Privilege</label>
+                            <p class="fs-6 border rounded-pill px-3 py-2 bg-light mb-0">{{ $user->role_display }}</p>
+                        </div>
+                    @endif
 
                     <div class="col-12 col-sm-6">
                         <label class="form-label text-secondary small fw-semibold uppercase">Account Status</label>

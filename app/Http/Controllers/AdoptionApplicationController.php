@@ -77,7 +77,7 @@ class AdoptionApplicationController extends Controller
         }
 
         $request->validate([
-            'admin_notes' => ['nullable', 'string', 'max:1000'],
+            'admin_notes' => ['required', 'string', 'max:1000'],
         ]);
 
         $application->update([
