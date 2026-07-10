@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pet extends Model
 {
@@ -20,4 +21,24 @@ class Pet extends Model
         'image_url',
         'description',
     ];
+
+    public function adoptionApplications(): HasMany
+    {
+        return $this->hasMany(AdoptionApplication::class);
+    }
+
+    public function vetCheckups(): HasMany
+    {
+        return $this->hasMany(VetCheckup::class);
+    }
+
+    public function isAvailable(): bool
+    {
+        return $this->adoption_status === 'Available';
+    }
+
+    public function isAdopted(): bool
+    {
+        return $this->adoption_status === 'Adopted';
+    }
 }

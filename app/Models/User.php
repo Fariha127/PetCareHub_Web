@@ -7,10 +7,11 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role'])]
+#[Fillable(['name', 'email', 'password', 'role', 'phone', 'address', 'occupation'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,5 +29,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function adoptionApplications(): HasMany
+    {
+        return $this->hasMany(AdoptionApplication::class);
+    }
+
+    public function vetCheckups(): HasMany
+    {
+        return $this->hasMany(VetCheckup::class, 'vet_id');
+    }
+
+    public function isAdopter(): bool
+    {
+        return $this->role === 'adopter';
+    }
+
+    public function isShelterStaff(): bool
+    {
+        return $this->role === 'shelter_staff';
+    }
+
+    public function isVet(): bool
+    {
+        return $this->role === 'veterinarian';
+    }
+
+    public function getRoleDisplayAttribute(): string
+    {
+        return ucwords(str_replace('_', ' ', $this->role));
     }
 }

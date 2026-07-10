@@ -1,16 +1,30 @@
-@extends('layouts.app')
+@extends(auth()->check() ? 'layouts.dashboard' : 'layouts.app')
 
 @section('title', 'Pets | PetCareHub')
 
 @section('content')
-    <main class="page-section">
-        <div class="container">
-            <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
-                <div>
-                    <p class="eyebrow">Pet Listing</p>
-                    <h1 class="section-title mb-0">Search, filter, and sort available pets</h1>
-                </div>
+    @if(auth()->check())
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+            <div>
+                <h1 class="page-title mb-1">Browse Pets</h1>
+                <p class="text-secondary mb-0">Search, filter, and sort available pets.</p>
             </div>
+            @if(auth()->user()->isShelterStaff())
+                <a href="{{ route('pets.create') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Add Pet
+                </a>
+            @endif
+        </div>
+    @else
+        <main class="page-section">
+            <div class="container">
+                <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
+                    <div>
+                        <p class="eyebrow">Pet Listing</p>
+                        <h1 class="section-title mb-0">Search, filter, and sort available pets</h1>
+                    </div>
+                </div>
+    @endif
 
             <form method="GET" action="{{ route('pets.index') }}" class="pet-search mb-4">
                 <div class="row g-3 align-items-center">
@@ -101,7 +115,8 @@
                         </div>
                     </div>
                 @endforelse
+    @if(!auth()->check())
             </div>
-        </div>
-    </main>
+        </main>
+    @endif
 @endsection
