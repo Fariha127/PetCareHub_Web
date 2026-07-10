@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pet;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -29,7 +30,98 @@ class PetController extends Controller
 
         abort_if($pet === null, 404);
 
-        return view('pets.show', ['pet' => $pet]);
+        // Load vet checkups if the pet is a model instance
+        $checkups = collect();
+        if ($pet instanceof Pet) {
+            $checkups = $pet->vetCheckups()->with('vet')->latest('checkup_date')->get();
+        }
+
+        // Check if current user has an existing application
+        $existingApplication = null;
+        if (auth()->check() && auth()->user()->isAdopter()) {
+            if ($pet instanceof Pet) {
+                $existingApplication = $pet->adoptionApplications()
+                    ->where('user_id', auth()->id())
+                    ->latest()
+                    ->first();
+            }
+        }
+
+        return view('pets.show', [
+            'pet' => $pet,
+            'checkups' => $checkups,
+            'existingApplication' => $existingApplication,
+        ]);
+    }
+
+    /**
+     * Show form to create a new pet (shelter staff).
+     */
+    public function create(): View
+    {
+        return view('pets.create');
+    }
+
+    /**
+     * Store a new pet (shelter staff).
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'species' => ['required', 'string', 'max:255'],
+            'breed' => ['nullable', 'string', 'max:255'],
+            'age' => ['nullable', 'integer', 'min:0', 'max:100'],
+            'gender' => ['required', 'in:Male,Female'],
+            'vaccination_status' => ['required', 'in:Vaccinated,Not Vaccinated'],
+            'adoption_status' => ['required', 'in:Available,Adopted'],
+            'image_url' => ['nullable', 'url', 'max:500'],
+            'description' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $pet = Pet::create($validated);
+
+        return redirect()->route('pets.show', $pet)->with('success', 'Pet has been added successfully.');
+    }
+
+    /**
+     * Show form to edit a pet (shelter staff).
+     */
+    public function edit(Pet $pet): View
+    {
+        return view('pets.edit', ['pet' => $pet]);
+    }
+
+    /**
+     * Update a pet (shelter staff).
+     */
+    public function update(Request $request, Pet $pet): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'species' => ['required', 'string', 'max:255'],
+            'breed' => ['nullable', 'string', 'max:255'],
+            'age' => ['nullable', 'integer', 'min:0', 'max:100'],
+            'gender' => ['required', 'in:Male,Female'],
+            'vaccination_status' => ['required', 'in:Vaccinated,Not Vaccinated'],
+            'adoption_status' => ['required', 'in:Available,Adopted'],
+            'image_url' => ['nullable', 'url', 'max:500'],
+            'description' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $pet->update($validated);
+
+        return redirect()->route('pets.show', $pet)->with('success', 'Pet has been updated successfully.');
+    }
+
+    /**
+     * Delete a pet (shelter staff).
+     */
+    public function destroy(Pet $pet): RedirectResponse
+    {
+        $pet->delete();
+
+        return redirect()->route('pets.index')->with('success', 'Pet has been removed.');
     }
 
     private function pets(Request $request): Collection
