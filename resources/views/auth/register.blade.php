@@ -33,7 +33,6 @@
 
     <form method="POST" action="{{ route('register') }}" class="vstack gap-4">
         @csrf
-        <input type="hidden" name="role" value="adopter">
 
         <div>
             <label for="name" class="form-label">Full Name</label>
@@ -70,28 +69,21 @@
             </div>
 
             <div class="col-md-6">
-                <label for="phone" class="form-label">Phone</label>
-                <input
-                    id="phone"
-                    type="tel"
-                    name="phone"
-                    value="{{ old('phone') }}"
-                    class="form-control"
-                    placeholder="Phone number"
+                <label for="role" class="form-label">I am a</label>
+                <select
+                    id="role"
+                    name="role"
+                    class="form-select @error('role') is-invalid @enderror"
+                    required
                 >
+                    <option value="adopter" @selected(old('role', 'adopter') === 'adopter')>Pet Adopter</option>
+                    <option value="shelter_staff" @selected(old('role') === 'shelter_staff')>Shelter Staff</option>
+                    <option value="veterinarian" @selected(old('role') === 'veterinarian')>Veterinarian</option>
+                </select>
+                @error('role')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-        </div>
-
-        <div>
-            <label for="address" class="form-label">Address</label>
-            <input
-                id="address"
-                type="text"
-                name="address"
-                value="{{ old('address') }}"
-                class="form-control"
-                placeholder="Street, city"
-            >
         </div>
 
         <div class="row g-4">
