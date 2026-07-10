@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\AdoptionApplication;
-use App\Observers\AdoptionApplicationObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        AdoptionApplication::observe(AdoptionApplicationObserver::class);
+        //
     }
 }

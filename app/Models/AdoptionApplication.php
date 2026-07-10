@@ -27,6 +27,26 @@ class AdoptionApplication extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::updated(function (AdoptionApplication $application) {
+            if ($application->wasChanged('status') && $application->status === 'approved') {
+                // Auto-update the pet's adoption status
+                $application->pet->update(['adoption_status' => 'Adopted']);
+
+                // Reject all other pending applications for the same pet
+                static::where('pet_id', $application->pet_id)
+                    ->where('id', '!=', $application->id)
+                    ->where('status', 'pending')
+                    ->update([
+                        'status' => 'rejected',
+                        'admin_notes' => 'Auto-rejected: another application was approved.',
+                        'reviewed_at' => now(),
+                    ]);
+            }
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
