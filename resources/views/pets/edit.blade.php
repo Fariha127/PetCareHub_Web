@@ -83,6 +83,21 @@
                             <textarea id="description" name="description" rows="3" class="form-control">{{ old('description', $pet->description) }}</textarea>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="habits" class="form-label">Habits</label>
+                            <textarea id="habits" name="habits" rows="2" class="form-control" placeholder="e.g. Loves sleeping in sunny spots, plays fetch">{{ old('habits', $pet->habits) }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="food_preference" class="form-label">Food Preference</label>
+                            <textarea id="food_preference" name="food_preference" rows="2" class="form-control" placeholder="e.g. Salmon wet food, dry chicken kibble">{{ old('food_preference', $pet->food_preference) }}</textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="other_preferences" class="form-label">Other Preferences</label>
+                            <textarea id="other_preferences" name="other_preferences" rows="2" class="form-control" placeholder="e.g. Likes quiet homes, good with other cats">{{ old('other_preferences', $pet->other_preferences) }}</textarea>
+                        </div>
+
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-check-lg me-1"></i> Update Pet
                         </button>

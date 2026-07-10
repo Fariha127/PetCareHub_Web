@@ -30,6 +30,7 @@ class AdoptionApplicationController extends Controller
 
         $request->validate([
             'message' => ['nullable', 'string', 'max:1000'],
+            'agree_promise' => ['required', 'accepted'],
         ]);
 
         AdoptionApplication::create([

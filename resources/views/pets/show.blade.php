@@ -118,6 +118,33 @@
                 </div>
             </article>
 
+            <!-- Care & Preferences section -->
+            <div class="content-card mt-4 p-4 shadow-sm border-light">
+                <h2 class="h5 mb-3 fw-bold text-success-emphasis">
+                    <i class="bi bi-heart-pulse-fill text-success me-1"></i> Care & Preferences
+                </h2>
+                <div class="row g-3">
+                    <div class="col-12 col-md-4">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <span class="small text-secondary fw-semibold uppercase d-block mb-2 text-uppercase"><i class="bi bi-activity text-warning me-1"></i> Habits</span>
+                            <p class="mb-0 text-dark small">{{ $pet->habits ?? 'No specific habits noted.' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <span class="small text-secondary fw-semibold uppercase d-block mb-2 text-uppercase"><i class="bi bi-egg-fried text-success me-1"></i> Food Preference</span>
+                            <p class="mb-0 text-dark small">{{ $pet->food_preference ?? 'No specific food preferences.' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <span class="small text-secondary fw-semibold uppercase d-block mb-2 text-uppercase"><i class="bi bi-shield-heart text-primary me-1"></i> Other Preferences</span>
+                            <p class="mb-0 text-dark small">{{ $pet->other_preferences ?? 'No other preferences listed.' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {{-- Vet Checkup History --}}
             @if($checkups->isNotEmpty())
                 <div class="content-card mt-4 p-4">

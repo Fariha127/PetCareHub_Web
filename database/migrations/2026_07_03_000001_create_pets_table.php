@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('adoption_status')->default('Available');
             $table->string('image_url')->nullable();
             $table->text('description')->nullable();
+            $table->text('habits')->nullable();
+            $table->text('food_preference')->nullable();
+            $table->text('other_preferences')->nullable();
             $table->timestamps();
         });
     }

@@ -20,6 +20,9 @@ class Pet extends Model
         'adoption_status',
         'image_url',
         'description',
+        'habits',
+        'food_preference',
+        'other_preferences',
     ];
 
     public function adoptionApplications(): HasMany

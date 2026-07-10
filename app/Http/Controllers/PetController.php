@@ -77,6 +77,9 @@ class PetController extends Controller
             'adoption_status' => ['required', 'in:Available,Adopted'],
             'image_url' => ['nullable', 'url', 'max:500'],
             'description' => ['nullable', 'string', 'max:2000'],
+            'habits' => ['nullable', 'string', 'max:2000'],
+            'food_preference' => ['nullable', 'string', 'max:2000'],
+            'other_preferences' => ['nullable', 'string', 'max:2000'],
         ]);
 
         $pet = Pet::create($validated);
@@ -107,6 +110,9 @@ class PetController extends Controller
             'adoption_status' => ['required', 'in:Available,Adopted'],
             'image_url' => ['nullable', 'url', 'max:500'],
             'description' => ['nullable', 'string', 'max:2000'],
+            'habits' => ['nullable', 'string', 'max:2000'],
+            'food_preference' => ['nullable', 'string', 'max:2000'],
+            'other_preferences' => ['nullable', 'string', 'max:2000'],
         ]);
 
         $pet->update($validated);

@@ -70,6 +70,9 @@ class DatabaseSeeder extends Seeder
             'adoption_status' => 'Available',
             'image_url' => 'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80',
             'description' => 'A calm indoor cat who enjoys sunny windows and gentle attention. Milo is perfect for a quiet household.',
+            'habits' => 'Loves taking naps in sunny spots, chases laser pointers, and purrs loudly when happy.',
+            'food_preference' => 'Prefers dry kibble in the morning and wet salmon paté in the evening.',
+            'other_preferences' => 'Enjoys quiet spaces and gentle head scratches. Avoids loud noises and sudden movements.',
         ]);
 
         $bella = Pet::create([
@@ -82,6 +85,9 @@ class DatabaseSeeder extends Seeder
             'adoption_status' => 'Available',
             'image_url' => 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80',
             'description' => 'Friendly, active, and ready for a family that enjoys daily walks and outdoor adventures.',
+            'habits' => 'Very playful, fetches tennis balls tirelessly, and wags her tail constantly.',
+            'food_preference' => 'High-protein chicken dry food. Loves peanut butter treats.',
+            'other_preferences' => 'Enjoys long walks, socializes well with other dogs, and loves car rides.',
         ]);
 
         $rio = Pet::create([
@@ -94,6 +100,9 @@ class DatabaseSeeder extends Seeder
             'adoption_status' => 'Available',
             'image_url' => 'https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?auto=format&fit=crop&w=900&q=80',
             'description' => 'A bright, social parakeet suited for a quiet and attentive home.',
+            'habits' => 'Mimics whistles, loves playing with mirrors, and chirps in the morning.',
+            'food_preference' => 'Standard parakeet seed mix, fresh leafy greens, and apple slices.',
+            'other_preferences' => 'Thrives in a social environment where they get plenty of out-of-cage flight time.',
         ]);
 
         $luna = Pet::create([
@@ -106,6 +115,9 @@ class DatabaseSeeder extends Seeder
             'adoption_status' => 'Adopted',
             'image_url' => 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=80',
             'description' => 'Gentle and affectionate Persian cat who found her forever home.',
+            'habits' => 'Slow-paced, loves being groomed, and sleeps on the bed footer.',
+            'food_preference' => 'Grain-free wet cat food, dislikes dry kibble.',
+            'other_preferences' => 'Enjoys soft brushing and a calm, quiet atmosphere without other pets.',
         ]);
 
         $max = Pet::create([
