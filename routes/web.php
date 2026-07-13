@@ -3,14 +3,18 @@
 use App\Http\Controllers\AdoptionApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventManagementController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VetCheckupController;
+use App\Models\Event;
 use App\Models\Pet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    $upcomingEvents = collect();
     try {
         DB::connection()->getPdo();
 
@@ -21,12 +25,25 @@ Route::get('/', function () {
             $availablePetsCount = 3;
             $adoptedPetsCount = 1;
         }
+
+        // Fetch upcoming events with creators and response stats
+        $upcomingEvents = Event::with('creator')
+            ->withCount([
+                'participations as going_count' => function ($query) {
+                    $query->where('status', 'going');
+                },
+                'participations as interested_count' => function ($query) {
+                    $query->where('status', 'interested');
+                }
+            ])
+            ->upcoming()
+            ->get();
     } catch (Throwable) {
         $availablePetsCount = 3;
         $adoptedPetsCount = 1;
     }
 
-    return view('welcome', compact('availablePetsCount', 'adoptedPetsCount'));
+    return view('welcome', compact('availablePetsCount', 'adoptedPetsCount', 'upcomingEvents'));
 })->name('home');
 
 Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
@@ -52,6 +69,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/pets/{pet}/apply', [AdoptionApplicationController::class, 'store'])->name('applications.store');
         Route::get('/dashboard/requests', [DashboardController::class, 'requests'])->name('dashboard.requests');
         Route::get('/dashboard/my-pets', [DashboardController::class, 'myPets'])->name('dashboard.my-pets');
+        Route::get('/dashboard/my-events', [DashboardController::class, 'myEvents'])->name('dashboard.my-events');
+        Route::post('/events/{event}/respond', [EventController::class, 'respond'])->name('events.respond');
     });
 
     // Shelter staff routes
@@ -66,6 +85,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/applications/{application}/reject', [AdoptionApplicationController::class, 'reject'])->name('applications.reject');
 
         Route::get('/dashboard/users/{user}', [DashboardController::class, 'viewUserProfile'])->name('dashboard.users.show');
+
+        Route::get('/dashboard/events/{event}/participants', [EventManagementController::class, 'participants'])->name('events.participants');
+        Route::resource('/dashboard/events', EventManagementController::class)->except(['show']);
 
         Route::get('/reports/adoption', [ReportController::class, 'monthlyAdoption'])->name('reports.adoption');
     });

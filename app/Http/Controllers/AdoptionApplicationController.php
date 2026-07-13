@@ -45,7 +45,6 @@ class AdoptionApplicationController extends Controller
 
     /**
      * Shelter staff approves an adoption application.
-     * This triggers the observer which auto-updates the pet's adoption_status.
      */
     public function approve(Request $request, AdoptionApplication $application): RedirectResponse
     {

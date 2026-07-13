@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -59,5 +60,22 @@ class User extends Authenticatable
     public function getRoleDisplayAttribute(): string
     {
         return ucwords(str_replace('_', ' ', $this->role));
+    }
+
+    public function createdEvents(): HasMany
+    {
+        return $this->hasMany(Event::class, 'created_by');
+    }
+
+    public function eventParticipations(): HasMany
+    {
+        return $this->hasMany(EventParticipation::class);
+    }
+
+    public function enrolledEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'event_participations')
+            ->withPivot('status')
+            ->withTimestamps();
     }
 }

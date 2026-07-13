@@ -120,5 +120,95 @@
                 </div>
             </div>
         </section>
+        <!-- Events & Campaigns Section -->
+        <section class="page-section pt-0">
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <p class="eyebrow mb-1">Get Involved</p>
+                        <h2 class="section-title mb-0">Upcoming Events & Campaigns</h2>
+                    </div>
+                </div>
+
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                <div class="row g-4">
+                    @forelse($upcomingEvents as $event)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="content-card h-100 d-flex flex-column overflow-hidden shadow-sm border-light">
+                                @if($event->image_url)
+                                    <img src="{{ $event->image_url }}" alt="{{ $event->title }}" style="height: 180px; object-fit: cover; width: 100%;">
+                                @else
+                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 180px; width: 100%;">
+                                        <i class="bi bi-calendar-event text-secondary" style="font-size: 3rem;"></i>
+                                    </div>
+                                @endif
+                                <div class="p-4 d-flex flex-column flex-grow-1">
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle align-self-start mb-2 px-2.5 py-1 rounded small">
+                                        <i class="bi bi-calendar-date me-1"></i> {{ $event->event_date->format('M d, Y @ h:i A') }}
+                                    </span>
+                                    <h3 class="h5 fw-bold text-dark mb-2">{{ $event->title }}</h3>
+                                    <p class="text-secondary small mb-3 flex-grow-1">{{ Str::limit($event->description, 140) }}</p>
+                                    
+                                    <div class="d-flex align-items-center gap-2 mb-3 text-secondary small">
+                                        <i class="bi bi-geo-alt-fill text-danger"></i> <span>{{ $event->location }}</span>
+                                    </div>
+
+                                    <div class="border-top pt-3 mt-auto">
+                                        <div class="d-flex align-items-center justify-content-between mb-3 text-secondary small">
+                                            <span><strong>{{ $event->going_count }}</strong> Going</span>
+                                            <span><strong>{{ $event->interested_count }}</strong> Interested</span>
+                                        </div>
+
+                                        @auth
+                                            @if(auth()->user()->isAdopter())
+                                                @php
+                                                    $userParticipation = $event->participations->where('user_id', auth()->id())->first();
+                                                @endphp
+                                                <form method="POST" action="{{ route('events.respond', $event) }}" class="d-flex gap-2">
+                                                    @csrf
+                                                    <button type="submit" name="status" value="interested" class="btn btn-sm flex-fill {{ $userParticipation && $userParticipation->status === 'interested' ? 'btn-warning text-dark fw-bold' : 'btn-outline-warning text-dark' }}">
+                                                        <i class="bi bi-star"></i> Interested
+                                                    </button>
+                                                    <button type="submit" name="status" value="going" class="btn btn-sm flex-fill {{ $userParticipation && $userParticipation->status === 'going' ? 'btn-success fw-bold' : 'btn-outline-success' }}">
+                                                        <i class="bi bi-check-circle"></i> Going
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <div class="text-center text-secondary small py-2 bg-light rounded border border-light">
+                                                    Logged in as {{ auth()->user()->role_display }}
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="alert alert-secondary py-2 px-3 mb-0 text-center small rounded border border-light">
+                                                <a href="{{ route('login') }}" class="alert-link text-decoration-none text-success fw-semibold">Login</a> to respond to this event
+                                            </div>
+                                        @endauth
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="text-center py-5 text-secondary border rounded-3 bg-light">
+                                <i class="bi bi-calendar-x" style="font-size: 3rem;"></i>
+                                <p class="mt-3 mb-0">No upcoming shelter events scheduled at the moment.</p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
     </main>
 @endsection

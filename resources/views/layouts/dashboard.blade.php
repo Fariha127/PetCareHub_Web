@@ -429,6 +429,9 @@
             <a class="nav-link {{ request()->routeIs('dashboard.my-pets') ? 'active' : '' }}" href="{{ route('dashboard.my-pets') }}">
                 <i class="bi bi-heart-fill"></i> My Pets
             </a>
+            <a class="nav-link {{ request()->routeIs('dashboard.my-events') ? 'active' : '' }}" href="{{ route('dashboard.my-events') }}">
+                <i class="bi bi-calendar2-check"></i> My Events
+            </a>
             <a class="nav-link {{ request()->routeIs('pets.index') ? 'active' : '' }}" href="{{ route('pets.index') }}">
                 <i class="bi bi-search-heart"></i> Browse Pets
             </a>
@@ -442,6 +445,9 @@
             </a>
             <a class="nav-link {{ request()->routeIs('pets.create') ? 'active' : '' }}" href="{{ route('pets.create') }}">
                 <i class="bi bi-plus-circle"></i> Add Pet
+            </a>
+            <a class="nav-link {{ request()->routeIs('events*') ? 'active' : '' }}" href="{{ route('events.index') }}">
+                <i class="bi bi-calendar-event"></i> Manage Events
             </a>
             <a class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.adoption') }}">
                 <i class="bi bi-bar-chart-line"></i> Reports

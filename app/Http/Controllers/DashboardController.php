@@ -162,4 +162,16 @@ class DashboardController extends Controller
             'applications' => $applications,
         ]);
     }
+
+    public function myEvents(Request $request): View
+    {
+        $participations = $request->user()->eventParticipations()
+            ->with('event.creator')
+            ->latest()
+            ->get();
+
+        return view('dashboard.my_events', [
+            'participations' => $participations,
+        ]);
+    }
 }

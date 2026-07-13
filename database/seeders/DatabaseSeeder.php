@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\AdoptionApplication;
+use App\Models\Event;
+use App\Models\EventParticipation;
 use App\Models\Pet;
 use App\Models\User;
 use App\Models\VetCheckup;
@@ -305,6 +307,53 @@ class DatabaseSeeder extends Seeder
             'treatment' => 'Vaccination administered',
             'next_checkup_date' => now()->addDays(28),
             'notes' => 'New arrival, overall good health.',
+        ]);
+
+        // ── Events & Campaigns ──
+        $feedingEvent = Event::create([
+            'title' => 'Street Dogs Feeding Drive',
+            'description' => 'Help us feed over 100 street dogs in the downtown area. We will provide dog food, volunteers just need to bring water bottles and comfortable walking shoes.',
+            'location' => 'Downtown Central Square',
+            'event_date' => now()->addDays(7)->setHour(9)->setMinute(0),
+            'image_url' => 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80',
+            'created_by' => $staff->id,
+        ]);
+
+        $donationEvent = Event::create([
+            'title' => 'Winter Blanket & Food Donation Campaign',
+            'description' => 'Drop off winter blankets, warm pet clothing, and dry food bags at our main shelter reception. Every donation helps keep our animals warm and well-fed.',
+            'location' => 'Main Shelter Reception',
+            'event_date' => now()->addDays(14)->setHour(10)->setMinute(0),
+            'image_url' => 'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80',
+            'created_by' => $staff->id,
+        ]);
+
+        $adoptionFair = Event::create([
+            'title' => 'Weekend Pet Adoption Fair',
+            'description' => 'Meet all our available pets in person, interact with them, and speak directly to our vets and staff about adoption options.',
+            'location' => 'Shelter Front Lawn',
+            'event_date' => now()->addDays(21)->setHour(11)->setMinute(0),
+            'image_url' => 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80',
+            'created_by' => $staff->id,
+        ]);
+
+        // ── Event Participations ──
+        EventParticipation::create([
+            'event_id' => $feedingEvent->id,
+            'user_id' => $adopter->id,
+            'status' => 'going',
+        ]);
+
+        EventParticipation::create([
+            'event_id' => $feedingEvent->id,
+            'user_id' => $adopter2->id,
+            'status' => 'going',
+        ]);
+
+        EventParticipation::create([
+            'event_id' => $adoptionFair->id,
+            'user_id' => $adopter2->id,
+            'status' => 'interested',
         ]);
     }
 }
