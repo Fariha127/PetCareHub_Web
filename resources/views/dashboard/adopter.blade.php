@@ -13,6 +13,42 @@
         </a>
     </div>
 
+    <!-- Notifications & Reminders Section -->
+    @if($checkupNotifications->isNotEmpty())
+        <div class="content-card mb-4 border-warning bg-warning-subtle" style="border-left: 5px solid #ffc107 !important;">
+            <div class="p-3">
+                <h2 class="h6 fw-bold mb-3 text-warning-emphasis">
+                    <i class="bi bi-bell-fill me-2 text-warning"></i>Notifications & Reminders
+                </h2>
+                <div class="d-flex flex-column gap-3">
+                    @foreach($checkupNotifications as $notification)
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-3 bg-white rounded border border-warning-subtle shadow-sm">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-danger-subtle text-danger d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">
+                                    <i class="bi bi-heart-pulse-fill"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h6 fw-bold text-dark mb-1">Upcoming Medical Checkup for {{ $notification->pet->name }}</h3>
+                                    <p class="text-secondary small mb-0">
+                                        Scheduled for <strong>{{ $notification->next_checkup_date->format('F d, Y') }}</strong> (Originally recommended during checkup on {{ $notification->checkup_date->format('M d, Y') }}).
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <form method="POST" action="{{ route('checkups.mark-done', $notification) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-success rounded-pill px-3 fw-semibold">
+                                        <i class="bi bi-check2-circle me-1"></i> Mark as Done
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- Stat cards -->
     <div class="row g-3 mb-4">
         <div class="col-6 col-lg-3">

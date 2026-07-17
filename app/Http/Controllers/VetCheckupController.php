@@ -31,4 +31,27 @@ class VetCheckupController extends Controller
 
         return back()->with('success', 'Checkup record has been saved successfully.');
     }
+
+    /**
+     * Mark a scheduled next checkup as done.
+     */
+    public function markDone(Request $request, VetCheckup $checkup): RedirectResponse
+    {
+        $user = $request->user();
+
+        $isOwner = $user->adoptionApplications()
+            ->where('pet_id', $checkup->pet_id)
+            ->where('status', 'approved')
+            ->exists();
+
+        if (!$isOwner) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $checkup->update([
+            'next_checkup_done' => true,
+        ]);
+
+        return back()->with('success', 'Medical checkup reminder has been marked as completed.');
+    }
 }

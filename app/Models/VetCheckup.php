@@ -19,6 +19,7 @@ class VetCheckup extends Model
         'diagnosis',
         'treatment',
         'next_checkup_date',
+        'next_checkup_done',
         'notes',
     ];
 
@@ -27,6 +28,7 @@ class VetCheckup extends Model
         return [
             'checkup_date' => 'date',
             'next_checkup_date' => 'date',
+            'next_checkup_done' => 'boolean',
             'weight' => 'decimal:2',
             'temperature' => 'decimal:2',
         ];

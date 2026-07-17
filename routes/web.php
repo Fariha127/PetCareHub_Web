@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/my-pets', [DashboardController::class, 'myPets'])->name('dashboard.my-pets');
         Route::get('/dashboard/my-events', [DashboardController::class, 'myEvents'])->name('dashboard.my-events');
         Route::post('/events/{event}/respond', [EventController::class, 'respond'])->name('events.respond');
+        Route::post('/dashboard/checkups/{checkup}/mark-done', [VetCheckupController::class, 'markDone'])->name('checkups.mark-done');
     });
 
     // Shelter staff routes

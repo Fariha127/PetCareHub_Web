@@ -282,6 +282,7 @@ class DatabaseSeeder extends Seeder
             'temperature' => 38.3,
             'diagnosis' => 'Healthy — pre-adoption checkup',
             'treatment' => 'None needed',
+            'next_checkup_date' => now()->addDays(14),
             'notes' => 'Luna is healthy and ready for her new home.',
         ]);
 

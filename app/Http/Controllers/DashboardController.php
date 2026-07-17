@@ -31,6 +31,17 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
+        $adoptedPetIds = $user->adoptionApplications()
+            ->where('status', 'approved')
+            ->pluck('pet_id');
+
+        $checkupNotifications = VetCheckup::whereIn('pet_id', $adoptedPetIds)
+            ->whereNotNull('next_checkup_date')
+            ->where('next_checkup_done', false)
+            ->with('pet')
+            ->orderBy('next_checkup_date', 'asc')
+            ->get();
+
         return view('dashboard.adopter', [
             'applications' => $applications,
             'totalApplications' => $applications->count(),
@@ -38,6 +49,7 @@ class DashboardController extends Controller
             'pendingCount' => $applications->where('status', 'pending')->count(),
             'rejectedCount' => $applications->where('status', 'rejected')->count(),
             'availablePetsCount' => Pet::where('adoption_status', 'Available')->count(),
+            'checkupNotifications' => $checkupNotifications,
         ]);
     }
 
