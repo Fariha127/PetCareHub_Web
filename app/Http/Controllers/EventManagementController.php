@@ -41,6 +41,8 @@ class EventManagementController extends Controller
             'location' => ['required', 'string', 'max:255'],
             'event_date' => ['required', 'date', 'after_or_equal:today'],
             'image_url' => ['nullable', 'url', 'max:500'],
+            'latitude' => ['nullable', 'numeric', 'min:-90', 'max:90'],
+            'longitude' => ['nullable', 'numeric', 'min:-180', 'max:180'],
         ]);
 
         $validated['created_by'] = $request->user()->id;
@@ -63,6 +65,8 @@ class EventManagementController extends Controller
             'location' => ['required', 'string', 'max:255'],
             'event_date' => ['required', 'date', 'after_or_equal:today'],
             'image_url' => ['nullable', 'url', 'max:500'],
+            'latitude' => ['nullable', 'numeric', 'min:-90', 'max:90'],
+            'longitude' => ['nullable', 'numeric', 'min:-180', 'max:180'],
         ]);
 
         $event->update($validated);

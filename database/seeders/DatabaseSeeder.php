@@ -313,29 +313,35 @@ class DatabaseSeeder extends Seeder
         // ── Events & Campaigns ──
         $feedingEvent = Event::create([
             'title' => 'Street Dogs Feeding Drive',
-            'description' => 'Help us feed over 100 street dogs in the downtown area. We will provide dog food, volunteers just need to bring water bottles and comfortable walking shoes.',
-            'location' => 'Downtown Central Square',
+            'description' => 'Help us feed over 100 street dogs in the Dhanmondi area. We will provide dog food, volunteers just need to bring water bottles and comfortable walking shoes.',
+            'location' => 'Dhanmondi Lake, Dhaka',
             'event_date' => now()->addDays(7)->setHour(9)->setMinute(0),
             'image_url' => 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80',
             'created_by' => $staff->id,
+            'latitude' => 23.746100,
+            'longitude' => 90.374200,
         ]);
 
         $donationEvent = Event::create([
             'title' => 'Winter Blanket & Food Donation Campaign',
-            'description' => 'Drop off winter blankets, warm pet clothing, and dry food bags at our main shelter reception. Every donation helps keep our animals warm and well-fed.',
-            'location' => 'Main Shelter Reception',
+            'description' => 'Drop off winter blankets, warm pet clothing, and dry food bags at our main shelter reception near TSC. Every donation helps keep our animals warm and well-fed.',
+            'location' => 'TSC, University of Dhaka',
             'event_date' => now()->addDays(14)->setHour(10)->setMinute(0),
             'image_url' => 'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80',
             'created_by' => $staff->id,
+            'latitude' => 23.731300,
+            'longitude' => 90.395700,
         ]);
 
         $adoptionFair = Event::create([
             'title' => 'Weekend Pet Adoption Fair',
             'description' => 'Meet all our available pets in person, interact with them, and speak directly to our vets and staff about adoption options.',
-            'location' => 'Shelter Front Lawn',
+            'location' => 'Ramna Park, Dhaka',
             'event_date' => now()->addDays(21)->setHour(11)->setMinute(0),
             'image_url' => 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80',
             'created_by' => $staff->id,
+            'latitude' => 23.737400,
+            'longitude' => 90.401000,
         ]);
 
         // ── Event Participations ──

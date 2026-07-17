@@ -19,6 +19,8 @@ class Event extends Model
         'event_date',
         'image_url',
         'created_by',
+        'latitude',
+        'longitude',
     ];
 
     protected function casts(): array
