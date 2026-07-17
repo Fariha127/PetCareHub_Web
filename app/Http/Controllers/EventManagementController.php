@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventParticipation;
+use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -47,6 +48,8 @@ class EventManagementController extends Controller
 
         $validated['created_by'] = $request->user()->id;
 
+        $validated = $this->geocodeLocation($validated);
+
         $event = Event::create($validated);
 
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
@@ -68,6 +71,8 @@ class EventManagementController extends Controller
             'latitude' => ['nullable', 'numeric', 'min:-90', 'max:90'],
             'longitude' => ['nullable', 'numeric', 'min:-180', 'max:180'],
         ]);
+
+        $validated = $this->geocodeLocation($validated);
 
         $event->update($validated);
 
@@ -95,5 +100,38 @@ class EventManagementController extends Controller
             ->get();
 
         return view('events.participants', compact('event', 'going', 'interested'));
+    }
+
+    /**
+     * Helper method to geocode address names using Guzzle and Nominatim API.
+     */
+    private function geocodeLocation(array $validated): array
+    {
+        if (empty($validated['latitude']) || empty($validated['longitude'])) {
+            try {
+                $client = new Client();
+                $response = $client->request('GET', 'https://nominatim.openstreetmap.org/search', [
+                    'headers' => [
+                        'User-Agent' => 'PetCareHub-App/1.0 (contact@petcarehub.demo)'
+                    ],
+                    'query' => [
+                        'q' => $validated['location'],
+                        'format' => 'json',
+                        'limit' => 1
+                    ]
+                ]);
+
+                $data = json_decode($response->getBody()->getContents(), true);
+
+                if (!empty($data) && isset($data[0])) {
+                    $validated['latitude'] = $data[0]['lat'];
+                    $validated['longitude'] = $data[0]['lon'];
+                }
+            } catch (\Exception $e) {
+                // Ignore and fallback
+            }
+        }
+
+        return $validated;
     }
 }
