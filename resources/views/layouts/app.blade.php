@@ -115,10 +115,10 @@
         }
 
         .alert-success {
-            background: #fdfafb;
-            color: var(--brand-pink);
-            border-color: rgba(225, 27, 104, 0.15);
-            box-shadow: 0 4px 15px rgba(225, 27, 104, 0.04);
+            background: #FFF0F4;
+            color: #e11b68;
+            border-color: #FFE9F0;
+            box-shadow: 0 4px 12px rgba(225, 27, 104, 0.05);
         }
 
         .page-section {
