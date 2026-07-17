@@ -88,6 +88,50 @@
 
         <div class="row g-4">
             <div class="col-md-6">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input
+                    id="phone"
+                    type="text"
+                    name="phone"
+                    value="{{ old('phone') }}"
+                    class="form-control @error('phone') is-invalid @enderror"
+                    placeholder="017XX-XXXXXX"
+                    required
+                >
+                @error('phone')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="district" class="form-label">District</label>
+                <select
+                    id="district"
+                    name="district"
+                    class="form-select @error('district') is-invalid @enderror"
+                    required
+                >
+                    <option value="" disabled selected>Select District</option>
+                    <option value="Dhaka" @selected(old('district') === 'Dhaka')>Dhaka</option>
+                    <option value="Chittagong" @selected(old('district') === 'Chittagong')>Chittagong</option>
+                    <option value="Sylhet" @selected(old('district') === 'Sylhet')>Sylhet</option>
+                    <option value="Rajshahi" @selected(old('district') === 'Rajshahi')>Rajshahi</option>
+                    <option value="Khulna" @selected(old('district') === 'Khulna')>Khulna</option>
+                    <option value="Barisal" @selected(old('district') === 'Barisal')>Barisal</option>
+                    <option value="Rangpur" @selected(old('district') === 'Rangpur')>Rangpur</option>
+                    <option value="Mymensingh" @selected(old('district') === 'Mymensingh')>Mymensingh</option>
+                    <option value="Comilla" @selected(old('district') === 'Comilla')>Comilla</option>
+                    <option value="Narayanganj" @selected(old('district') === 'Narayanganj')>Narayanganj</option>
+                    <option value="Gazipur" @selected(old('district') === 'Gazipur')>Gazipur</option>
+                </select>
+                @error('district')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
             <label for="password" class="form-label">Password</label>
             <input
                 id="password"

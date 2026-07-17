@@ -42,12 +42,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $staff = User::create([
-            'name' => 'Sarah Chen',
+            'name' => 'Sarah Islam',
             'email' => 'staff@demo.com',
             'password' => bcrypt('password'),
             'role' => 'shelter_staff',
-            'phone' => '+1 (555) 345-6789',
-            'address' => '789 Pine Road, Riverdale',
+            'phone' => '01234567890',
+            'address' => 'Shewrapara, Mirpur, Dhaka-1216',
             'occupation' => 'Shelter Coordinator',
         ]);
 

@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventManagementController;
+use App\Http\Controllers\HelpPostController;
+use App\Http\Controllers\HelpPostManagementController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VetCheckupController;
@@ -49,6 +51,9 @@ Route::get('/', function () {
 Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
 Route::get('/pets/{pet}', [PetController::class, 'show'])->name('pets.show');
 
+Route::get('/community-supports', [HelpPostController::class, 'index'])->name('community.index');
+Route::get('/community-supports/{post}', [HelpPostController::class, 'show'])->name('community.show');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -64,6 +69,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    // Community support post routes
+    Route::post('/community-supports/{post}/comment', [HelpPostController::class, 'comment'])->name('community.comment');
     // Adoption applications (adopters)
     Route::middleware('role:adopter')->group(function () {
         Route::post('/pets/{pet}/apply', [AdoptionApplicationController::class, 'store'])->name('applications.store');
@@ -72,6 +79,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/my-events', [DashboardController::class, 'myEvents'])->name('dashboard.my-events');
         Route::post('/events/{event}/respond', [EventController::class, 'respond'])->name('events.respond');
         Route::post('/dashboard/checkups/{checkup}/mark-done', [VetCheckupController::class, 'markDone'])->name('checkups.mark-done');
+
+        // Help posts creation
+        Route::get('/dashboard/my-posts', [DashboardController::class, 'myPosts'])->name('dashboard.my-posts');
+        Route::get('/dashboard/my-posts/create', [HelpPostController::class, 'create'])->name('dashboard.my-posts.create');
+        Route::post('/dashboard/my-posts', [HelpPostController::class, 'store'])->name('dashboard.my-posts.store');
     });
 
     // Shelter staff routes
@@ -91,6 +103,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('/dashboard/events', EventManagementController::class)->except(['show']);
 
         Route::get('/reports/adoption', [ReportController::class, 'monthlyAdoption'])->name('reports.adoption');
+
+        // Help posts moderation
+        Route::get('/dashboard/manage-help-posts', [HelpPostManagementController::class, 'index'])->name('dashboard.manage-posts.index');
+        Route::post('/dashboard/manage-help-posts/{post}/approve', [HelpPostManagementController::class, 'approve'])->name('dashboard.manage-posts.approve');
+        Route::post('/dashboard/manage-help-posts/{post}/reject', [HelpPostManagementController::class, 'reject'])->name('dashboard.manage-posts.reject');
     });
 
     // Veterinarian routes

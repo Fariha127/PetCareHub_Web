@@ -344,6 +344,7 @@
             <div class="d-flex flex-wrap align-items-center gap-3 gap-md-4">
                 <a class="site-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                 <a class="site-link {{ request()->routeIs('pets.*') ? 'active' : '' }}" href="{{ route('pets.index') }}">Pets</a>
+                <a class="site-link {{ request()->routeIs('community.*') ? 'active' : '' }}" href="{{ route('community.index') }}">Community Supports</a>
 
                 @auth
                     <span class="text-secondary small">{{ ucwords(str_replace('_', ' ', auth()->user()->role)) }}</span>

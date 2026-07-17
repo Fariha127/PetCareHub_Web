@@ -7,9 +7,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --brand-green: #E21B66;       /* Primary Pink */
-            --brand-green-dark: #6B0E23;  /* Primary Maroon */
-            --brand-green-light: #FF6601; /* Accent Orange */
+            --brand-pink: #e11b68;
+            --brand-orange: #ff6f00;
+            --brand-purple: #701a75;
+            --brand-pink-dark: #6b0e23;
+            
+            --brand-green: var(--brand-pink);
+            --brand-green-dark: var(--brand-pink-dark);
+            --brand-green-light: var(--brand-orange);
+            
+            --brand-gradient: linear-gradient(135deg, var(--brand-pink), var(--brand-orange));
+            --brand-gradient-hover: linear-gradient(135deg, var(--brand-pink-dark), #e65c00);
+            --brand-gradient-purple: linear-gradient(135deg, var(--brand-purple), var(--brand-pink));
+            
             --ink: #121c2a;
             --muted: #665054;
             --line: #FFE9F0;              /* Soft Pink/Orange border */

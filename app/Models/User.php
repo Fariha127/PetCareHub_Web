@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'phone', 'address', 'occupation'])]
+#[Fillable(['name', 'email', 'password', 'role', 'phone', 'district', 'address', 'occupation'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -77,5 +77,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class, 'event_participations')
             ->withPivot('status')
             ->withTimestamps();
+    }
+
+    public function helpPosts(): HasMany
+    {
+        return $this->hasMany(HelpPost::class);
+    }
+
+    public function helpPostComments(): HasMany
+    {
+        return $this->hasMany(HelpPostComment::class);
     }
 }

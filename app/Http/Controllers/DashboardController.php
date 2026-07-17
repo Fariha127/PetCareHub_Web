@@ -186,4 +186,16 @@ class DashboardController extends Controller
             'participations' => $participations,
         ]);
     }
+
+    public function myPosts(Request $request): View
+    {
+        $posts = $request->user()->helpPosts()
+            ->with(['images', 'comments.user'])
+            ->latest()
+            ->get();
+
+        return view('dashboard.my_posts', [
+            'posts' => $posts,
+        ]);
+    }
 }

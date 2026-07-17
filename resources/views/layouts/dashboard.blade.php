@@ -471,6 +471,9 @@
         </a>
 
         @if(auth()->user()->isAdopter())
+            <a class="nav-link {{ request()->routeIs('dashboard.my-posts*') ? 'active' : '' }}" href="{{ route('dashboard.my-posts') }}">
+                <i class="bi bi-chat-heart"></i> My Help Posts
+            </a>
             <a class="nav-link {{ request()->routeIs('dashboard.requests') ? 'active' : '' }}" href="{{ route('dashboard.requests') }}">
                 <i class="bi bi-file-earmark-text"></i> My Requests
             </a>
@@ -499,6 +502,9 @@
             </a>
             <a class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.adoption') }}">
                 <i class="bi bi-bar-chart-line"></i> Reports
+            </a>
+            <a class="nav-link {{ request()->routeIs('dashboard.manage-posts*') ? 'active' : '' }}" href="{{ route('dashboard.manage-posts.index') }}">
+                <i class="bi bi-shield-check"></i> Review Help Posts
             </a>
         @endif
 
