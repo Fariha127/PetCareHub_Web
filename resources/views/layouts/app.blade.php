@@ -7,12 +7,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --brand-green: #198754;
-            --brand-green-dark: #146c43;
-            --ink: #121c2a;
-            --muted: #667085;
-            --line: #dfe7e3;
-            --wash: #f4faf7;
+            --brand-pink: #e11b68;
+            --brand-orange: #ff6f00;
+            --brand-purple: #701a75;
+            --brand-pink-dark: #6b0e23;
+            
+            --brand-green: var(--brand-pink);
+            --brand-green-dark: var(--brand-pink-dark);
+            --brand-green-light: var(--brand-orange);
+            
+            --brand-gradient: linear-gradient(135deg, var(--brand-pink), var(--brand-orange));
+            --brand-gradient-hover: linear-gradient(135deg, var(--brand-pink-dark), #e65c00);
+            --brand-gradient-purple: linear-gradient(135deg, var(--brand-purple), var(--brand-pink));
+            
+            --ink: #1f0207;
+            --muted: #6b5860;
+            --line: rgba(225, 27, 104, 0.12); /* Soft transparent pink border */
+            --wash: #fdfafb;                  /* Warm pink wash */
         }
 
         body {
@@ -28,10 +39,13 @@
         }
 
         .site-brand {
-            color: var(--brand-green);
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-size: 1.55rem;
             font-weight: 700;
             text-decoration: none;
+            display: inline-block;
         }
 
         .site-link {
@@ -54,26 +68,32 @@
         }
 
         .btn-primary {
-            background: var(--brand-green);
-            border-color: var(--brand-green);
+            background: var(--brand-gradient);
+            border: none;
             border-radius: 7px;
             font-weight: 600;
+            box-shadow: 0 4px 15px rgba(225, 27, 104, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
+ 
         .btn-primary:hover,
         .btn-primary:focus {
-            background: var(--brand-green-dark);
-            border-color: var(--brand-green-dark);
+            background: var(--brand-gradient-hover);
+            box-shadow: 0 6px 20px rgba(225, 27, 104, 0.4);
+            transform: translateY(-1px);
         }
 
         .btn-outline-success {
-            border-color: var(--brand-green);
-            color: var(--brand-green);
+            border-color: var(--brand-pink);
+            color: var(--brand-pink);
+            transition: all 0.3s ease;
         }
-
+ 
         .btn-outline-success:hover {
-            background: var(--brand-green);
-            border-color: var(--brand-green);
+            background: var(--brand-gradient);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(225, 27, 104, 0.2);
         }
 
         .page-section {
@@ -82,18 +102,24 @@
 
         .content-card,
         .pet-card {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--line);
-            border-radius: 8px;
-            box-shadow: 0 22px 60px rgba(39, 73, 59, .09);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(225, 27, 104, 0.05);
+            transition: all 0.3s ease;
         }
 
         .eyebrow {
-            color: #16665f;
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-size: 1rem;
             letter-spacing: .02em;
             text-transform: uppercase;
             margin-bottom: 16px;
+            display: inline-block;
+            font-weight: 700;
         }
 
         .hero-title {

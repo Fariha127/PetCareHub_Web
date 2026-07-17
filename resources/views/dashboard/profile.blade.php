@@ -14,7 +14,7 @@
             <div class="content-card text-center p-4">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" 
-                         style="width: 90px; height: 90px; background: linear-gradient(135deg, var(--brand-green), #0d9488); font-size: 2.2rem; letter-spacing: 1px;">
+                         style="width: 90px; height: 90px; background: linear-gradient(135deg, var(--brand-green), var(--brand-green-light)); font-size: 2.2rem; letter-spacing: 1px;">
                         {{ strtoupper(substr($user->name, 0, 1)) }}
                     </div>
                 </div>

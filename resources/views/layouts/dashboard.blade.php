@@ -11,13 +11,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
         :root {
-            --brand-green: #059669;
-            --brand-green-dark: #047857;
-            --brand-green-light: #ecfdf5;
-            --ink: #0f172a;
-            --muted: #475569;
-            --line: #e2e8f0;
-            --wash: #f8fafc;
+            --brand-pink: #e11b68;
+            --brand-orange: #ff6f00;
+            --brand-purple: #701a75;
+            --brand-pink-dark: #6b0e23;
+            
+            --brand-green: var(--brand-pink);
+            --brand-green-dark: var(--brand-pink-dark);
+            --brand-green-light: var(--brand-orange);
+            
+            --brand-gradient: linear-gradient(135deg, var(--brand-pink), var(--brand-orange));
+            --brand-gradient-hover: linear-gradient(135deg, var(--brand-pink-dark), #e65c00);
+            --brand-gradient-purple: linear-gradient(135deg, var(--brand-purple), var(--brand-pink));
+            
+            --ink: #1f0207;
+            --muted: #6b5860;
+            --line: rgba(225, 27, 104, 0.12); /* Soft transparent pink border */
+            --wash: #fdfafb;                  /* Warm pink wash */
             --sidebar-width: 260px;
         }
 
@@ -48,10 +58,13 @@
         }
 
         .dash-brand {
-            color: var(--brand-green);
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-size: 1.4rem;
             font-weight: 700;
             text-decoration: none;
+            display: inline-block;
         }
 
         .dash-user-info {
@@ -61,12 +74,13 @@
         }
 
         .dash-role-badge {
-            background: #e9f7ef;
-            color: #0f6b3d;
+            background: #FFF0F4;
+            color: #E21B66;
             font-size: .8rem;
             font-weight: 600;
             padding: 4px 10px;
             border-radius: 999px;
+            border: 1px solid #FFE9F0;
         }
 
         /* ── Sidebar ── */
@@ -114,7 +128,7 @@
 
         .dash-sidebar .nav-link.active {
             color: var(--brand-green);
-            background: #e9f7ef;
+            background: #FFF0F4;
             border-left-color: var(--brand-green);
             font-weight: 600;
         }
@@ -151,7 +165,7 @@
         .stat-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 16px -4px rgba(0,0,0,.06), 0 4px 6px -2px rgba(0,0,0,.03);
-            border-color: #a7f3d0;
+            border-color: #E21B66;
         }
 
         .stat-card .stat-icon {
@@ -185,18 +199,21 @@
 
         /* ── Status badges ── */
         .badge-pending {
-            background: #fff3cd;
-            color: #856404;
+            background: #fff6f0;
+            color: #ff6601;
+            border: 1px solid #ffe2d1;
         }
-
+ 
         .badge-approved {
-            background: #d1e7dd;
-            color: #0f5132;
+            background: #FFF0F4;
+            color: #E21B66;
+            border: 1px solid #FFE9F0;
         }
-
+ 
         .badge-rejected {
-            background: #f8d7da;
-            color: #842029;
+            background: #fff5f5;
+            color: #d8213c;
+            border: 1px solid #ffd1d1;
         }
 
         /* ── Table ── */
@@ -222,30 +239,36 @@
         }
 
         .form-control:focus, .form-select:focus {
-            border-color: #88bda1;
-            box-shadow: 0 0 0 .22rem rgba(25, 135, 84, .14);
+            border-color: #fbcfe8;
+            box-shadow: 0 0 0 .22rem rgba(226, 27, 102, .14);
         }
 
         .btn-primary {
-            background: var(--brand-green);
-            border-color: var(--brand-green);
+            background: var(--brand-gradient);
+            border: none;
             border-radius: 7px;
             font-weight: 600;
+            box-shadow: 0 4px 15px rgba(225, 27, 104, 0.25);
+            transition: all 0.3s ease;
         }
-
+ 
         .btn-primary:hover, .btn-primary:focus {
-            background: var(--brand-green-dark);
-            border-color: var(--brand-green-dark);
+            background: var(--brand-gradient-hover);
+            box-shadow: 0 6px 20px rgba(225, 27, 104, 0.4);
+            transform: translateY(-1px);
         }
 
         .btn-outline-success {
-            border-color: var(--brand-green);
-            color: var(--brand-green);
+            border-color: var(--brand-pink);
+            color: var(--brand-pink);
+            transition: all 0.3s ease;
         }
-
+ 
         .btn-outline-success:hover {
-            background: var(--brand-green);
-            border-color: var(--brand-green);
+            background: var(--brand-gradient);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(225, 27, 104, 0.2);
         }
 
         .page-title {
