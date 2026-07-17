@@ -10,6 +10,7 @@ use App\Http\Controllers\HelpPostManagementController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VetCheckupController;
+use App\Http\Controllers\AppointmentController;
 use App\Models\Event;
 use App\Models\Pet;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/my-posts', [DashboardController::class, 'myPosts'])->name('dashboard.my-posts');
         Route::get('/dashboard/my-posts/create', [HelpPostController::class, 'create'])->name('dashboard.my-posts.create');
         Route::post('/dashboard/my-posts', [HelpPostController::class, 'store'])->name('dashboard.my-posts.store');
+
+        // Appointments (adopter)
+        Route::get('/dashboard/appointments', [AppointmentController::class, 'index'])->name('dashboard.appointments.index');
+        Route::get('/dashboard/appointments/create', [AppointmentController::class, 'create'])->name('dashboard.appointments.create');
+        Route::post('/dashboard/appointments', [AppointmentController::class, 'store'])->name('dashboard.appointments.store');
+        Route::post('/dashboard/appointments/{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('dashboard.appointments.cancel');
     });
 
     // Shelter staff routes
@@ -113,5 +120,11 @@ Route::middleware('auth')->group(function () {
     // Veterinarian routes
     Route::middleware('role:veterinarian')->group(function () {
         Route::post('/checkups', [VetCheckupController::class, 'store'])->name('checkups.store');
+
+        // Appointments (vet)
+        Route::get('/dashboard/vet-appointments', [AppointmentController::class, 'vetIndex'])->name('dashboard.appointments.vet-index');
+        Route::post('/dashboard/vet-appointments/{appointment}/approve', [AppointmentController::class, 'vetApprove'])->name('dashboard.appointments.vet-approve');
+        Route::post('/dashboard/vet-appointments/{appointment}/reject', [AppointmentController::class, 'vetReject'])->name('dashboard.appointments.vet-reject');
+        Route::post('/dashboard/vet-appointments/{appointment}/complete', [AppointmentController::class, 'vetComplete'])->name('dashboard.appointments.vet-complete');
     });
 });

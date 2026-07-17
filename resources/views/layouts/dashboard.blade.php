@@ -483,6 +483,9 @@
             <a class="nav-link {{ request()->routeIs('dashboard.my-events') ? 'active' : '' }}" href="{{ route('dashboard.my-events') }}">
                 <i class="bi bi-calendar2-check"></i> My Events
             </a>
+            <a class="nav-link {{ request()->routeIs('dashboard.appointments*') ? 'active' : '' }}" href="{{ route('dashboard.appointments.index') }}">
+                <i class="bi bi-calendar-check-fill"></i> My Appointments
+            </a>
             <a class="nav-link {{ request()->routeIs('pets.index') ? 'active' : '' }}" href="{{ route('pets.index') }}">
                 <i class="bi bi-search-heart"></i> Browse Pets
             </a>
@@ -513,6 +516,9 @@
             <div class="nav-section">Veterinary</div>
             <a class="nav-link {{ request()->routeIs('pets.index') ? 'active' : '' }}" href="{{ route('pets.index') }}">
                 <i class="bi bi-card-list"></i> All Pets
+            </a>
+            <a class="nav-link {{ request()->routeIs('dashboard.appointments.vet-index*') ? 'active' : '' }}" href="{{ route('dashboard.appointments.vet-index') }}">
+                <i class="bi bi-calendar3"></i> Appointments
             </a>
         @endif
 

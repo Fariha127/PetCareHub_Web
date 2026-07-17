@@ -44,4 +44,9 @@ class Pet extends Model
     {
         return $this->adoption_status === 'Adopted';
     }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

@@ -88,4 +88,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(HelpPostComment::class);
     }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function vetAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'vet_id');
+    }
 }
