@@ -96,6 +96,31 @@
             box-shadow: 0 4px 12px rgba(225, 27, 104, 0.2);
         }
 
+        .btn-success {
+            background: var(--brand-gradient);
+            border: none;
+            border-radius: 7px;
+            color: #fff !important;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(225, 27, 104, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover,
+        .btn-success:focus {
+            background: var(--brand-gradient-hover);
+            box-shadow: 0 6px 20px rgba(225, 27, 104, 0.4);
+            transform: translateY(-1px);
+            color: #fff !important;
+        }
+
+        .alert-success {
+            background: #fdfafb;
+            color: var(--brand-pink);
+            border-color: rgba(225, 27, 104, 0.15);
+            box-shadow: 0 4px 15px rgba(225, 27, 104, 0.04);
+        }
+
         .page-section {
             padding: 64px 0;
         }

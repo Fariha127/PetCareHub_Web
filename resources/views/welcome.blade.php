@@ -155,7 +155,7 @@
                                     </div>
                                 @endif
                                 <div class="p-4 d-flex flex-column flex-grow-1">
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle align-self-start mb-2 px-2.5 py-1 rounded small">
+                                    <span class="badge align-self-start mb-2 px-3 py-1.5 rounded-pill small fw-semibold" style="background: rgba(225, 27, 104, 0.07); color: #e11b68; border: 1px solid rgba(225, 27, 104, 0.15);">
                                         <i class="bi bi-calendar-date me-1"></i> {{ $event->event_date->format('M d, Y @ h:i A') }}
                                     </span>
                                     <h3 class="h5 fw-bold text-dark mb-2">{{ $event->title }}</h3>
@@ -192,7 +192,7 @@
                                             @endif
                                         @else
                                             <div class="alert alert-secondary py-2 px-3 mb-0 text-center small rounded border border-light">
-                                                <a href="{{ route('login') }}" class="alert-link text-decoration-none text-success fw-semibold">Login</a> to respond to this event
+                                                <a href="{{ route('login') }}" class="alert-link text-decoration-none fw-semibold" style="color: #e11b68;">Login</a> to respond to this event
                                             </div>
                                         @endauth
                                     </div>
