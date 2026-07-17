@@ -56,8 +56,69 @@
                             @error('longitude')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
                     </div>
+
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                    <div class="mb-4">
+                        <label class="form-label text-dark fw-semibold">Event Location Pin (Click on Map to Set Coordinates)</label>
+                        <div id="map" style="height: 350px; border-radius: 8px; border: 1px solid #d6dde3; z-index: 1;"></div>
+                    </div>
+
+                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var defaultLat = 23.8103; // Dhaka
+                            var defaultLng = 90.4125;
+                            
+                            var latInput = document.getElementById('latitude');
+                            var lngInput = document.getElementById('longitude');
+                            var locInput = document.getElementById('location');
+                            
+                            var activeLat = latInput.value ? parseFloat(latInput.value) : defaultLat;
+                            var activeLng = lngInput.value ? parseFloat(lngInput.value) : defaultLng;
+                            
+                            var map = L.map('map').setView([activeLat, activeLng], 12);
+                            
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(map);
+
+                            var marker;
+                            if (latInput.value && lngInput.value) {
+                                marker = L.marker([activeLat, activeLng]).addTo(map);
+                            }
+                            
+                            map.on('click', function(e) {
+                                var lat = e.latlng.lat.toFixed(6);
+                                var lng = e.latlng.lng.toFixed(6);
+                                
+                                latInput.value = lat;
+                                lngInput.value = lng;
+                                
+                                if (marker) {
+                                    marker.setLatLng(e.latlng);
+                                } else {
+                                    marker = L.marker(e.latlng).addTo(map);
+                                }
+                                
+                                // Fetch address using OpenStreetMap Nominatim API
+                                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=en`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data && data.display_name) {
+                                            // Shorten the address if it is too long
+                                            var addr = data.display_name;
+                                            var parts = addr.split(',');
+                                            if (parts.length > 4) {
+                                                addr = parts.slice(0, 4).join(',').trim();
+                                            }
+                                            locInput.value = addr;
+                                        }
+                                    })
+                                    .catch(err => console.error('Geocoding error:', err));
+                            });
+                        });
+                    </script>
 
                     <div class="mb-3">
                         <label for="image_url" class="form-label text-dark fw-semibold">Image URL (Optional)</label>

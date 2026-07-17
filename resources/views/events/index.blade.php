@@ -13,12 +13,6 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
 
     <div class="content-card overflow-hidden">
         <div class="table-responsive">

@@ -13,12 +13,6 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
 
     @if($participations->isNotEmpty())
         <div class="row g-4">

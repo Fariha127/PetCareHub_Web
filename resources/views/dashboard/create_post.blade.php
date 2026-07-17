@@ -26,6 +26,18 @@
                     </div>
                 </div>
 
+                <!-- Global Validation Errors -->
+                @if($errors->any())
+                    <div class="alert alert-danger border-0 rounded-3 mb-4">
+                        <h4 class="h6 fw-bold text-danger mb-2">Please fix the following errors:</h4>
+                        <ul class="mb-0 ps-3">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <!-- Post Submission Form -->
                 <form method="POST" action="{{ route('dashboard.my-posts.store') }}" enctype="multipart/form-data">
                     @csrf
