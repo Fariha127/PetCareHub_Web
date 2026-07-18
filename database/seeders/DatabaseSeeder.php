@@ -52,13 +52,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $vet = User::create([
-            'name' => 'Dr. James Miller',
+            'name' => 'Dr. Ashraful Islam',
             'email' => 'vet@demo.com',
             'password' => bcrypt('password'),
             'role' => 'veterinarian',
-            'phone' => '+1 (555) 987-6543',
-            'address' => '321 Elm Lane, Hill Valley',
-            'occupation' => 'Doctor of Veterinary Medicine',
+            'phone' => '01712345678',
+            'address' => 'House 12, Road 4, Dhanmondi, Dhaka-1209',
+            'occupation' => 'Veterinary Surgeon (DVM, MS)',
         ]);
 
         // ── Pets ──

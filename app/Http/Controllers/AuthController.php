@@ -44,11 +44,12 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'role' => ['required', 'in:shelter_staff,veterinarian,adopter'],
             'phone' => ['required', 'string', 'max:20'],
             'district' => ['required', 'string', 'max:100'],
             'password' => ['required', 'confirmed', Password::min(8)],
         ]);
+
+        $validated['role'] = 'adopter';
 
         $user = User::create($validated);
 

@@ -51,39 +51,20 @@
             @enderror
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-6">
-                <label for="email" class="form-label">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    class="form-control @error('email') is-invalid @enderror"
-                    placeholder="name@example.com"
-                    required
-                >
-                @error('email')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="col-md-6">
-                <label for="role" class="form-label">I am a</label>
-                <select
-                    id="role"
-                    name="role"
-                    class="form-select @error('role') is-invalid @enderror"
-                    required
-                >
-                    <option value="adopter" @selected(old('role', 'adopter') === 'adopter')>Pet Adopter</option>
-                    <option value="shelter_staff" @selected(old('role') === 'shelter_staff')>Shelter Staff</option>
-                    <option value="veterinarian" @selected(old('role') === 'veterinarian')>Veterinarian</option>
-                </select>
-                @error('role')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+        <div>
+            <label for="email" class="form-label">Email</label>
+            <input
+                id="email"
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                class="form-control @error('email') is-invalid @enderror"
+                placeholder="name@example.com"
+                required
+            >
+            @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="row g-4">
